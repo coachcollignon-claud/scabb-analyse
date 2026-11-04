@@ -1,0 +1,80 @@
+/* Compléments propres à l'application */
+html,body{margin:0}
+body{padding-bottom:env(safe-area-inset-bottom,0px);-webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+.pagetitle{font-family:var(--display);text-transform:uppercase;margin:0}
+.grid1{display:grid;gap:12px}
+.login{max-width:420px;padding-top:48px}
+.login .card{text-align:left}
+.logo-slot.big{width:64px;height:64px;border:1px solid var(--line)}
+button.mitem{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
+.mitem .right{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.chip{font-size:11px;font-weight:700;letter-spacing:.05em;padding:3px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);text-transform:uppercase}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.seg3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seg3 button{font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.05em;padding:10px 4px;border-radius:9px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer}
+.seg3 button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.big-num{font-family:var(--display);font-weight:800;font-size:40px;margin:0;font-variant-numeric:tabular-nums}
+.netbars{display:flex;gap:6px;align-items:flex-start;overflow-x:auto;padding:4px 0}
+.netbars .nb{display:grid;justify-items:center;gap:4px;min-width:38px;height:150px;align-content:start}
+.netbars .bar{width:22px;border-radius:3px}
+.netbars .bar.pos{background:var(--good)} .netbars .bar.neg{background:var(--accent)}
+.netbars span{font-size:10.5px;color:var(--muted);white-space:nowrap}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+main{max-width:880px;margin:0 auto;padding-block:18px 48px;display:grid;gap:16px}
+nav.tabs button{flex:1}
+
+/* ---- v2 : écrans Adversaire / Championnat / Évolution ---- */
+main{max-width:1100px}
+.seg4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.seg4 button{font-family:var(--display);font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.04em;padding:10px 2px;border-radius:9px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer}
+.seg4 button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.cols2{display:grid;grid-template-columns:1fr;gap:16px;min-width:0}
+@media (min-width:900px){.cols2{grid-template-columns:1fr 1fr;align-items:start}}
+.cols2>*{min-width:0}
+.next{border-left:5px solid var(--accent)}
+.big-num.sm{font-size:30px;white-space:nowrap}
+.rk{display:inline-block;font-size:11px;font-weight:700;padding:1px 6px;border-radius:99px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line);vertical-align:2px}
+.rk.g{background:var(--good-bg);color:var(--good);border-color:transparent}.rk.b{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.rk sup,.fchip sup{font-size:.7em}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.mcell{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface-2);min-width:0}
+.mcell .k{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.mcell .v{font-family:var(--display);font-weight:800;font-size:22px;font-variant-numeric:tabular-nums;line-height:1.2}
+.mcell .o{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.fchips{display:flex;flex-wrap:wrap;gap:6px}
+.fchip{font-size:13px;font-weight:600;padding:4px 9px;border-radius:8px}
+.fchip.g{background:var(--good-bg);color:var(--good)}.fchip.b{background:var(--bad-bg);color:var(--bad)}
+.chartwrap{overflow-x:auto;min-width:0}
+svg.scatter,svg.line{width:100%;min-width:520px;height:auto;display:block}
+svg .axis{stroke:var(--line);stroke-dasharray:4 4}
+svg .avgl{stroke:var(--muted);stroke-dasharray:5 5}
+svg .alab,svg .xlab{fill:var(--muted);font-size:12px;font-family:var(--body)}
+svg .dlab{fill:var(--ink);font-size:11.5px;font-family:var(--body)}
+svg .dot{fill:var(--navy)}
+:root[data-theme="dark"] svg .dot{fill:#9BB3E0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) svg .dot{fill:#9BB3E0}}
+svg .dot-us{fill:var(--accent)}
+svg .pl{fill:none;stroke:var(--ink);stroke-width:2}
+svg .pt{fill:var(--muted)} svg .pt.g{fill:var(--good)} svg .pt.b{fill:var(--accent)}
+.rotbar{display:flex;gap:2px;height:26px;border-radius:6px;overflow:hidden;margin-bottom:6px}
+.rot{min-width:3px;display:flex}.rot span{flex:1}.rot .pos{background:var(--good)}.rot .neg{background:var(--accent)}.rot .neu{background:var(--line)}
+.tally{display:grid;gap:6px}
+.trow{display:grid;grid-template-columns:minmax(110px,1.4fr) 1fr 22px 1fr 22px;gap:6px;align-items:center;font-size:13px}
+.tb{height:10px;background:var(--surface-2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.tb i{display:block;height:100%}.tb i.g{background:var(--good)}.tb i.b{background:var(--accent)}
+b.g{color:var(--good)}b.b{color:var(--bad)}
+.sortb{background:none;border:0;padding:0;font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit;cursor:pointer}
+.sortb.on{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.linkb{background:none;border:0;padding:0;font:inherit;font-weight:600;color:var(--ink);cursor:pointer;text-align:left;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+table.st.league td.team{position:sticky;left:0;background:var(--surface);z-index:1}
+table.st tr.cur td.team{background:var(--warn-bg)}
+table.st tr.avg td{font-weight:600;color:var(--muted);border-top:2px solid var(--line)}
+.previews{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(240px,max-content))}
+.good{color:var(--good)}.bad{color:var(--bad)}
+small.muted{font-size:11px}
+
+svg.scatter{max-width:760px;margin:0 auto}
+svg.line{max-width:900px}
+table.st td.unit{text-align:left}

@@ -1,0 +1,6 @@
+# Les fonctions contrôlent elles-mêmes l'accès (staff connecté ou robot)
+[functions.robot]
+verify_jwt = false
+
+[functions.report]
+verify_jwt = false

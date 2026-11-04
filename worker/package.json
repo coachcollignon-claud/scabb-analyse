@@ -1,0 +1,10 @@
+{
+  "name": "scabb-live-worker",
+  "private": true,
+  "type": "module",
+  "scripts": { "live": "node live.mjs" },
+  "dependencies": {
+    "@supabase/supabase-js": "2.45.4",
+    "puppeteer": "22.15.0"
+  }
+}

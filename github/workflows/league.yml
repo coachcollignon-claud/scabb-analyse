@@ -1,0 +1,35 @@
+name: Championnat Élite 2
+on:
+  schedule:
+    - cron: "45 22 * * *"   # chaque nuit vers 23h45 (heure de Paris en hiver)
+    - cron: "30 5 * * *"    # et vers 6h30 le matin
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Relire toutes les journées (1 = oui)"
+        required: false
+        default: "0"
+concurrency:
+  group: league
+  cancel-in-progress: false
+jobs:
+  league:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Préparer
+        run: bash tools/sync.sh
+      - name: Installer le robot
+        working-directory: worker
+        run: npm install --no-audit --no-fund
+      - name: Mettre à jour le championnat
+        working-directory: worker
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          FULL: ${{ github.event.inputs.full || '0' }}
+        run: node league.mjs

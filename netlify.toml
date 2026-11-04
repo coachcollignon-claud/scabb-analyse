@@ -1,0 +1,8 @@
+[build]
+  publish = "web"
+  command = "bash tools/sync.sh"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "no-cache"

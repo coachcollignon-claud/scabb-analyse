@@ -1,0 +1,33 @@
+name: Suivi live LNB
+on:
+  workflow_dispatch:
+    inputs:
+      match_id:
+        description: "Identifiant du match (Supabase)"
+        required: true
+concurrency:
+  group: live-${{ github.event.inputs.match_id }}
+  cancel-in-progress: true
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 220
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Préparer
+        run: bash tools/sync.sh
+      - name: Installer le robot
+        working-directory: worker
+        run: npm install --no-audit --no-fund
+      - name: Suivre le match
+        working-directory: worker
+        env:
+          MATCH_ID: ${{ github.event.inputs.match_id }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          ROBOT_KEY: ${{ secrets.ROBOT_KEY }}
+        run: node live.mjs
