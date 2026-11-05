@@ -22,7 +22,7 @@ if (error) { console.error(error); process.exit(1); }
 const known = Object.fromEntries((existing || []).map(g => [g.id, g]));
 const { browser, page } = await launch();
 await setState("running", "Lecture du calendrier…");
-let detailed = 0, failures = 0;
+let detailed = 0, failures = 0, consecutive = 0, firstError = null;
 try {
   // 1) Calendrier : journées à (re)lire
   const doneJ = new Set();
@@ -38,7 +38,13 @@ try {
       const games = LNB.parseCalendar(txt).filter(g => g.journee === j);
       games.forEach(g => rows.push({ id: gid(g), ...g, updated_at: new Date().toISOString() }));
       log(`J${j} : ${games.length} matchs`);
-    } catch (e) { log(`J${j} : échec (${e.message})`); failures++; }
+    } catch (e) {
+      log(`J${j} : échec (${e.message})`); failures++; consecutive++;
+      if (!firstError) { firstError = e.message; await setState("running", "Diagnostic : " + e.message.slice(0, 900)); }
+      if (consecutive >= 3) throw new Error("Arrêt après 3 journées illisibles. " + firstError.slice(0, 900));
+      continue;
+    }
+    consecutive = 0;
   }
   if (rows.length) {
     for (let i = 0; i < rows.length; i += 100) { const { error: e } = await db.from("league_games").upsert(rows.slice(i, i + 100), { onConflict: "id" }); if (e) throw e; }

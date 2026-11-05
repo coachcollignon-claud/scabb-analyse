@@ -16,7 +16,9 @@ export async function launch() {
 export async function openCalendar(page, journee) {
   await page.goto(CAL, { waitUntil: "domcontentloaded", timeout: 60000 });
   await page.evaluate(() => { const b = [...document.querySelectorAll("button")].find(x => /tout rejeter/i.test(x.innerText)); if (b) b.click(); }).catch(() => {});
-  await page.waitForFunction(() => /^(LUNDI|MARDI|MERCREDI|JEUDI|VENDREDI|SAMEDI|DIMANCHE) \d+ /m.test(document.body.innerText), { timeout: 45000, polling: 500 });
+  try {
+    await page.waitForFunction(() => /^(LUNDI|MARDI|MERCREDI|JEUDI|VENDREDI|SAMEDI|DIMANCHE) \d+ /m.test(document.body.innerText), { timeout: 45000, polling: 500 });
+  } catch (e) { throw new Error("Calendrier non affiché — " + await describe(page)); }
   if (journee) {
     const ok = await page.evaluate(async j => {
       const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -74,4 +76,13 @@ export async function readPbp(page) {
   await page.waitForFunction(() => /^(Q|P|OT)\d+ \d{1,2}:\d\d$/m.test(document.body.innerText) || /Aucune|Pas de donn/i.test(document.body.innerText), { timeout: 15000, polling: 400 }).catch(() => {});
   await sleep(800);
   return page.evaluate(() => document.body.innerText);
+}
+
+/** Résumé de ce que le robot voit (pour le diagnostic) + capture d'écran debug.png */
+export async function describe(page) {
+  try {
+    await page.screenshot({ path: "debug.png", fullPage: false }).catch(() => {});
+    const d = await page.evaluate(() => ({ title: document.title, url: location.href, text: (document.body ? document.body.innerText : "").replace(/\s+/g, " ").slice(0, 400) }));
+    return `titre « ${d.title} » · ${d.url} · texte : ${d.text}`;
+  } catch (e) { return "page illisible (" + e.message + ")"; }
 }
